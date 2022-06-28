@@ -10,6 +10,9 @@ class RawApiServer {
   final void Function(Socket, dynamic)? onError;
   final void Function(Socket)? onDone;
 
+  bool _hasStarted = false;
+  bool get hasStarted => _hasStarted;
+
   late final ServerSocket _serverSocket;
 
   RawApiServer({
@@ -71,11 +74,19 @@ class RawApiServer {
   }
 
   Future<void> start() async {
+    if (_hasStarted) {
+      throw StateError('Server is already started');
+    }
+    _hasStarted = true;
     _serverSocket = await ServerSocket.bind(InternetAddress.anyIPv4, port);
     _serverSocket.listen((socket) => _handleConnection(socket));
   }
 
   Future<void> stop() async {
+    if (!_hasStarted) {
+      throw StateError('Server is already stopped');
+    }
+    _hasStarted = false;
     await _serverSocket.close();
   }
 }
