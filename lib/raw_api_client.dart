@@ -11,7 +11,7 @@ class RawApiClient {
   final void Function(Socket, dynamic)? onError;
   final void Function(Socket)? onDone;
 
-  late final Socket socket;
+  late final Socket _socket;
 
   RawApiClient({
     required this.port,
@@ -25,26 +25,26 @@ class RawApiClient {
   Future<void> connect({
     Duration? timeout
   }) async {
-    socket = await Socket.connect(
+    _socket = await Socket.connect(
       host,
       port,
       timeout: timeout,
     );
 
-    onConnect?.call(socket);
+    onConnect?.call(_socket);
 
-    socket.listen(
-      (data) => onReceive == null ? null : onReceive!(socket, data),
-      onError: onError == null ? null : (error) => onError!(socket, error),
-      onDone: onDone == null ? null : () => onDone!(socket),
+    _socket.listen(
+      (data) => onReceive == null ? null : onReceive!(_socket, data),
+      onError: onError == null ? null : (error) => onError!(_socket, error),
+      onDone: onDone == null ? null : () => onDone!(_socket),
     );
   }
 
   void sendRequest(ApiRequest request) {
-    socket.add(request.toIntList());
+    _socket.add(request.toIntList());
   }
 
   void disconnect() {
-    socket.destroy();
+    _socket.destroy();
   }
 }
