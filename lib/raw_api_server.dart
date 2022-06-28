@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:collection/collection.dart';
+import 'package:raw_api_server/exceptions/duplicate_id_exception.dart';
+import 'package:raw_api_server/exceptions/invalid_id_exception.dart';
 import 'package:raw_api_server/model/api_endpoint.dart';
 
 class RawApiServer {
@@ -18,7 +20,37 @@ class RawApiServer {
     this.onConnect,
     this.onError,
     this.onDone,
-  });
+  }) {
+    _checkUniqueEndpointIds();
+    _checkValidEndpointIds();
+  }
+
+  void _checkUniqueEndpointIds() {
+    if (endpoints == null) {
+      return;
+    }
+
+    final ids = endpoints!.map((e) => e.id).toList();
+    final idsSet = ids.toSet().toList();
+
+    final unique = (ids.length == idsSet.length);
+    if (!unique) {
+      throw DuplicateIdException('Provided endpoints do not have unique id values');
+    }
+  }
+
+  void _checkValidEndpointIds() {
+    if (endpoints == null) {
+      return;
+    }
+
+    final ids = endpoints!.map((e) => e.id).toList();
+    for (int id in ids) {
+      if (id < 0 || id > 255) {
+        throw InvalidIdException('Id is not within range [0, 255]: $id');
+      }
+    }
+  }
   
   void _handleConnection(Socket socket) {
     onConnect?.call(socket);
