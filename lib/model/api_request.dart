@@ -2,11 +2,11 @@ import 'dart:convert';
 
 class ApiRequest {
   final int id;
-  final List<int> args;
+  final List<int>? args;
 
   ApiRequest({
     required this.id,
-    required this.args,
+    this.args,
   });
 
   factory ApiRequest.fromUtf8({
@@ -18,7 +18,9 @@ class ApiRequest {
 
   List<int> toIntList() {
     final request = [id];
-    request.addAll(args);
+    if (args != null) {
+      request.addAll(args!);
+    }
     return request;
   }
 }
