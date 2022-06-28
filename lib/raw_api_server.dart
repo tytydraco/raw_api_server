@@ -3,13 +3,20 @@ import 'dart:io';
 import 'package:collection/collection.dart';
 import 'package:raw_api_server/model/api_endpoint.dart';
 
+/// A simple socket-based API server hosting on a given [port].
 class RawApiServer {
   final int port;
+  /// A list of [ApiEndpoint]s that the server will scan client data for.
   final Iterable<ApiEndpoint>? endpoints;
-  final void Function(Socket)? onConnect;
-  final void Function(Socket)? onDisconnect;
+  /// A callback passing the client [socket] when a connection is first
+  /// established.
+  final void Function(Socket socket)? onConnect;
+  /// A callback passing the client [socket] when a client disconnects
+  /// from the server.
+  final void Function(Socket socket)? onDisconnect;
 
   bool _hasStarted = false;
+  /// True if the server has been started.
   bool get hasStarted => _hasStarted;
 
   late final ServerSocket _serverSocket;
@@ -24,6 +31,9 @@ class RawApiServer {
     _checkValidEndpointIds();
   }
 
+  /// Assert that every endpoint has a unique id.
+  ///
+  /// Throws an [AssertionError] if there are any duplicate ids.
   void _checkUniqueEndpointIds() {
     if (endpoints == null) {
       return;
@@ -38,6 +48,9 @@ class RawApiServer {
     }
   }
 
+  /// Assert that every endpoint has an id within the [Uint8] range.
+  ///
+  /// Throws an [AssertionError] if there are any invalid ids.
   void _checkValidEndpointIds() {
     if (endpoints == null) {
       return;
@@ -50,7 +63,8 @@ class RawApiServer {
       }
     }
   }
-  
+
+  /// Handle and listen to a newly-connected client [socket].
   void _handleConnection(Socket socket) {
     onConnect?.call(socket);
     socket.listen(
@@ -62,6 +76,7 @@ class RawApiServer {
         final id = data[0];
         final realData = data.sublist(1);
 
+        // Call the matching endpoint handler if one exists
         endpoints
           ?.firstWhereOrNull((element) => element.id == id)
           ?.handler?.call(socket, realData);
@@ -70,6 +85,9 @@ class RawApiServer {
     );
   }
 
+  /// Start the server and begin listening for clients.
+  ///
+  /// Throws a [StateError] if the server has already been started.
   Future<void> start() async {
     if (_hasStarted) {
       throw StateError('Server is already started');
@@ -79,6 +97,9 @@ class RawApiServer {
     _hasStarted = true;
   }
 
+  /// Stop the server from accepting any new clients.
+  ///
+  /// Throws a [StateError] if the server is stopped already.
   Future<void> stop() async {
     if (!_hasStarted) {
       throw StateError('Server is not started');
