@@ -12,7 +12,7 @@ class RawApiServer {
   final void Function(Socket, dynamic)? onError;
   final void Function(Socket)? onDone;
 
-  late final ServerSocket serverSocket;
+  late final ServerSocket _serverSocket;
 
   RawApiServer({
     required this.port,
@@ -73,11 +73,11 @@ class RawApiServer {
   }
 
   Future<void> start() async {
-    serverSocket = await ServerSocket.bind(InternetAddress.anyIPv4, port);
-    serverSocket.listen((socket) => _handleConnection(socket));
+    _serverSocket = await ServerSocket.bind(InternetAddress.anyIPv4, port);
+    _serverSocket.listen((socket) => _handleConnection(socket));
   }
 
   Future<void> stop() async {
-    await serverSocket.close();
+    await _serverSocket.close();
   }
 }
