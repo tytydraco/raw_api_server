@@ -40,7 +40,7 @@ class RawApiClient {
     );
   }
 
-  Future<void> sendRequest(ApiRequest request) async {
+  void sendRequest(ApiRequest request) {
     socket.add(request.toIntList());
   }
 

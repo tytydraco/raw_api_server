@@ -73,7 +73,7 @@ Future<void> main() async {
   // Tell our client to try connecting to it now
   await client.connect();
   // Send a request with ID 0 (previously registered by out server)
-  await client.sendRequest(
+  client.sendRequest(
     // Build a formal API request using UTF-8 data rather than a Uint8List
     ApiRequest.fromUtf8(
       id: 0,
