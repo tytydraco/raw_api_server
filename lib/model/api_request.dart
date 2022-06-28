@@ -2,24 +2,24 @@ import 'dart:convert';
 
 class ApiRequest {
   final int id;
-  final List<int>? args;
+  final List<int>? data;
 
   ApiRequest({
     required this.id,
-    this.args,
+    this.data,
   });
 
   factory ApiRequest.fromUtf8({
     required int id,
-    required String stringArgs,
+    required String data,
   }) {
-    return ApiRequest(id: id, args: utf8.encode(stringArgs));
+    return ApiRequest(id: id, data: utf8.encode(data));
   }
 
   List<int> toIntList() {
     final request = [id];
-    if (args != null) {
-      request.addAll(args!);
+    if (data != null) {
+      request.addAll(data!);
     }
     return request;
   }
