@@ -6,7 +6,6 @@ import 'package:raw_api_server/model/api_request.dart';
 class RawApiClient {
   final int port;
   final String host;
-  final Duration? timeout;
   final void Function(Socket)? onConnect;
   final void Function(Socket, Uint8List)? onReceive;
   final void Function(Socket, dynamic)? onError;
@@ -17,14 +16,15 @@ class RawApiClient {
   RawApiClient({
     required this.port,
     required this.host,
-    this.timeout,
     this.onConnect,
     this.onReceive,
     this.onError,
     this.onDone,
   });
 
-  Future<void> connect() async {
+  Future<void> connect({
+    Duration? timeout
+  }) async {
     socket = await Socket.connect(
       host,
       port,
