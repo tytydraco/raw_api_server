@@ -8,9 +8,7 @@ final api = RawApiServer(
   endpoints: [
     ApiEndpoint(
       id: 0,
-      onCall: (socket, data) {
-        socket.write('Pong.');
-      },
+      handler: (socket, data) => socket.write('Pong.'),
     ),
   ],
 );
@@ -23,9 +21,7 @@ final pingRequest = ApiRequest.fromUtf8(
 final client = RawApiClient(
   port: 6543,
   host: 'localhost',
-  onReceive: (socket, data) {
-    print('Received: ${String.fromCharCodes(data)}');
-  },
+  onReceive: (socket, data) => print('Received: ${String.fromCharCodes(data)}'),
 );
 
 Future<void> main() async {

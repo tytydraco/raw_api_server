@@ -7,8 +7,7 @@ class RawApiServer {
   final int port;
   final Iterable<ApiEndpoint>? endpoints;
   final void Function(Socket)? onConnect;
-  final void Function(Socket, Object)? onError;
-  final void Function(Socket)? onDone;
+  final void Function(Socket)? onDisconnect;
 
   bool _hasStarted = false;
   bool get hasStarted => _hasStarted;
@@ -19,8 +18,7 @@ class RawApiServer {
     required this.port,
     this.endpoints,
     this.onConnect,
-    this.onError,
-    this.onDone,
+    this.onDisconnect,
   }) {
     _checkUniqueEndpointIds();
     _checkValidEndpointIds();
@@ -66,10 +64,9 @@ class RawApiServer {
 
         endpoints
           ?.firstWhereOrNull((element) => element.id == id)
-          ?.onCall?.call(socket, realData);
+          ?.handler?.call(socket, realData);
       },
-      onError: onError == null ? null : (error) => onError!(socket, error),
-      onDone: onDone == null ? null : () => onDone!(socket),
+      onDone: onDisconnect == null ? null : () => onDisconnect!(socket),
     );
   }
 

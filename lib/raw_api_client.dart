@@ -8,8 +8,7 @@ class RawApiClient {
   final String host;
   final void Function(Socket)? onConnect;
   final void Function(Socket, Uint8List)? onReceive;
-  final void Function(Socket, dynamic)? onError;
-  final void Function(Socket)? onDone;
+  final void Function(Socket)? onDisconnect;
 
   late final Socket _socket;
 
@@ -18,8 +17,7 @@ class RawApiClient {
     required this.host,
     this.onConnect,
     this.onReceive,
-    this.onError,
-    this.onDone,
+    this.onDisconnect,
   });
 
   Future<void> connect({
@@ -35,8 +33,7 @@ class RawApiClient {
 
     _socket.listen(
       (data) => onReceive == null ? null : onReceive!(_socket, data),
-      onError: onError == null ? null : (error) => onError!(_socket, error),
-      onDone: onDone == null ? null : () => onDone!(_socket),
+      onDone: onDisconnect == null ? null : () => onDisconnect!(_socket),
     );
   }
 

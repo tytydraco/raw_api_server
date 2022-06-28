@@ -10,16 +10,8 @@ final api = RawApiServer(
   // When a client connects to us, call this first. This is useful to gather
   // client information before serving them.
   onConnect: (socket) => print('Connected: ${socket.remoteAddress.address}'),
-  // Handle stream errors here; if they are unhandled, an exception will be
-  // thrown instead.
-  onError: (socket, error) {
-    print(error);
-    socket.destroy();
-  },
   // When a client disconnects, this is the final call made
-  onDone: (socket) {
-    print('Server disconnected from ${socket.remoteAddress.address}:${socket.remotePort}');
-  },
+  onDisconnect: (socket) => print('Disconnected: ${socket.remoteAddress.address}'),
   // Give a list of registered endpoints to check for. If a client sends us a
   // request with an id that is already registered here, the respective function
   // will be called.
@@ -30,7 +22,7 @@ final api = RawApiServer(
       // the id is [0, 255] inclusive.
       id: 0,
       // Each call passes the client and the remaining data as a Uint8List
-      onCall: (socket, data) {
+      handler: (socket, data) {
         // Echo the arguments sent by the client
         print('${socket.remoteAddress.address}: ${String.fromCharCodes(data)}');
         // Reply to them
@@ -48,21 +40,15 @@ final client = RawApiClient(
   host: 'localhost',
   // When we connect to the server, call this first
   onConnect: (socket) {
-    print('Client connected to ${socket.remoteAddress.address}:${socket.remotePort}');
+    print('Client connected to ${socket.remoteAddress.address}');
   },
   // When the server sends us data, handle it here. We are passed the server
   // socket and the data sent as a Uint8List.
   onReceive: (socket, data) {
     print('Client received: ${String.fromCharCodes(data)}');
   },
-  // Handle stream errors here; if they are unhandled, an exception will be
-  // thrown instead.
-  onError: (socket, error) {
-    print(error);
-    socket.destroy();
-  },
   // When we disconnect from the server, this is the final call made
-  onDone: (socket) {
+  onDisconnect: (socket) {
     print('Client disconnected from server');
   }
 );
