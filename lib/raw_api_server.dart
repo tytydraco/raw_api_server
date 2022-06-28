@@ -5,7 +5,7 @@ import 'package:raw_api_server/model/api_endpoint.dart';
 
 class RawApiServer {
   final int port;
-  final List<ApiEndpoint>? endpoints;
+  final Iterable<ApiEndpoint>? endpoints;
   final void Function(Socket)? onConnect;
   final void Function(Socket, dynamic)? onError;
   final void Function(Socket)? onDone;
