@@ -35,7 +35,7 @@ The `endpoints` parameter expects a list of type `ApiEndpoint`. An endpoint cons
 ```dart
 final echoEndpoint = ApiEndpoint(
   id: 0,
-  onCall: (socket, args) {
+  handler: (socket, args) {
     final argsString = String.fromCharCodes(args);
     socket.write('you said: ${argsString}');
   }
