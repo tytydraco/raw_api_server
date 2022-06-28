@@ -74,16 +74,16 @@ class RawApiServer {
     if (_hasStarted) {
       throw StateError('Server is already started');
     }
-    _hasStarted = true;
     _serverSocket = await ServerSocket.bind(InternetAddress.anyIPv4, port);
     _serverSocket.listen((socket) => _handleConnection(socket));
+    _hasStarted = true;
   }
 
   Future<void> stop() async {
     if (!_hasStarted) {
-      throw StateError('Server is already stopped');
+      throw StateError('Server is not started');
     }
-    _hasStarted = false;
     await _serverSocket.close();
+    _hasStarted = false;
   }
 }

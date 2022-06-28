@@ -10,6 +10,9 @@ class RawApiClient {
   final void Function(Socket, Uint8List)? onReceive;
   final void Function(Socket)? onDisconnect;
 
+  bool _hasConnected = false;
+  bool get hasConnected => _hasConnected;
+
   late final Socket _socket;
 
   RawApiClient({
@@ -23,11 +26,17 @@ class RawApiClient {
   Future<void> connect({
     Duration? timeout
   }) async {
+    if (_hasConnected) {
+      throw StateError('Client is already connected');
+    }
+
     _socket = await Socket.connect(
       host,
       port,
       timeout: timeout,
     );
+
+    _hasConnected = true;
 
     onConnect?.call(_socket);
 
@@ -38,10 +47,20 @@ class RawApiClient {
   }
 
   void sendRequest(ApiRequest request) {
+    if (_hasConnected) {
+      throw StateError('Client is not connected');
+    }
+
     _socket.add(request.toIntList());
   }
 
   void disconnect() {
+    if (_hasConnected) {
+      throw StateError('Client is not connected');
+    }
+
     _socket.destroy();
+
+    _hasConnected = false;
   }
 }
