@@ -5,7 +5,7 @@ import 'dart:typed_data';
 class ApiEndpoint {
   /// A unique identifier represented as a [Uint8].
   ///
-  /// May range from [0, 255] inclusive.
+  /// May range from 0 to 255 inclusive.
   final int id;
 
   /// A function handler given a client [socket] and client [data].
