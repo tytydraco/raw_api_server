@@ -1,6 +1,6 @@
 # raw_api_server
 
-A Dart package for small and simple socket-based APIs
+A Dart package for building small and simple socket-based APIs.
 
 ## Features
 

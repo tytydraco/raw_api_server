@@ -1,3 +1,11 @@
+## 1.0.2
+
+* Fix bug where client thought it was not connected
+* Better type checking
+* Document code better
+* Comply to Dart style regulations
+* Add basic tests
+
 ## 1.0.1
 
 - Make arguments optional for ApiRequest

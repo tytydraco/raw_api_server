@@ -5,7 +5,9 @@ import 'package:raw_api_server/model/api_request.dart';
 
 /// A simple socket-based API client to connect to a [port] on a [host] server.
 class RawApiClient {
+  /// Port to connect to.
   final int port;
+  /// Host to connect to.
   final String host;
   /// A callback passing the server [socket] when a connection is first
   /// established.
@@ -62,7 +64,7 @@ class RawApiClient {
   ///
   /// Throws a [StateError] if the client is disconnected.
   void sendRequest(ApiRequest request) {
-    if (_hasConnected) {
+    if (!_hasConnected) {
       throw StateError('Client is not connected');
     }
 
@@ -73,7 +75,7 @@ class RawApiClient {
   ///
   /// Throws a [StateError] if the client is disconnected.
   void disconnect() {
-    if (_hasConnected) {
+    if (!_hasConnected) {
       throw StateError('Client is not connected');
     }
 

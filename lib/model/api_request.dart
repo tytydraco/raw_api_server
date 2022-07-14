@@ -1,9 +1,16 @@
 import 'dart:convert';
+import 'dart:ffi';
+import 'dart:typed_data';
 
 /// A request given an [id] and some [data].
 class ApiRequest {
+  /// A unique identifier represented as a [Uint8].
+  ///
+  /// Must be in range from 0 to 255 inclusive.
   final int id;
-  final List<int>? data;
+
+  /// A list of of integers that must comply to the type [Uint8].
+  final Uint8List? data;
 
   ApiRequest({
     required this.id,
@@ -15,15 +22,15 @@ class ApiRequest {
     required int id,
     required String data,
   }) {
-    return ApiRequest(id: id, data: utf8.encode(data));
+    return ApiRequest(id: id, data: Uint8List.fromList(utf8.encode(data)));
   }
 
   /// Convert the request into a socket-compatible [Uint8List].
-  List<int> toIntList() {
+  Uint8List toIntList() {
     final request = [id];
     if (data != null) {
       request.addAll(data!);
     }
-    return request;
+    return Uint8List.fromList(request);
   }
 }

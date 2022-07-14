@@ -5,6 +5,7 @@ import 'package:raw_api_server/model/api_endpoint.dart';
 
 /// A simple socket-based API server hosting on a given [port].
 class RawApiServer {
+  /// Port to connect to.
   final int port;
   /// A list of [ApiEndpoint]s that the server will scan client data for.
   final Iterable<ApiEndpoint>? endpoints;
@@ -28,7 +29,6 @@ class RawApiServer {
     this.onDisconnect,
   }) {
     _checkUniqueEndpointIds();
-    _checkValidEndpointIds();
   }
 
   /// Assert that every endpoint has a unique id.
@@ -48,22 +48,6 @@ class RawApiServer {
     }
   }
 
-  /// Assert that every endpoint has an id within the [Uint8] range.
-  ///
-  /// Throws an [AssertionError] if there are any invalid ids.
-  void _checkValidEndpointIds() {
-    if (endpoints == null) {
-      return;
-    }
-
-    final ids = endpoints!.map((e) => e.id).toList();
-    for (int id in ids) {
-      if (id < 0 || id > 255) {
-        throw AssertionError('Id is not within range [0, 255]: $id');
-      }
-    }
-  }
-
   /// Handle and listen to a newly-connected client [socket].
   void _handleConnection(Socket socket) {
     onConnect?.call(socket);
@@ -78,7 +62,7 @@ class RawApiServer {
 
         // Call the matching endpoint handler if one exists
         endpoints
-          ?.firstWhereOrNull((element) => element.id == id)
+          ?.firstWhereOrNull((endpoint) => endpoint.id == id)
           ?.handler?.call(socket, realData);
       },
       onDone: onDisconnect == null ? null : () => onDisconnect!(socket),
