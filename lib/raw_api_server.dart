@@ -7,16 +7,20 @@ import 'package:raw_api_server/model/api_endpoint.dart';
 class RawApiServer {
   /// Port to connect to.
   final int port;
+
   /// A list of [ApiEndpoint]s that the server will scan client data for.
   final Iterable<ApiEndpoint>? endpoints;
+
   /// A callback passing the client [socket] when a connection is first
   /// established.
   final void Function(Socket socket)? onConnect;
+
   /// A callback passing the client [socket] when a client disconnects
   /// from the server.
   final void Function(Socket socket)? onDisconnect;
 
   bool _hasStarted = false;
+
   /// True if the server has been started.
   bool get hasStarted => _hasStarted;
 
@@ -62,8 +66,9 @@ class RawApiServer {
 
         // Call the matching endpoint handler if one exists
         endpoints
-          ?.firstWhereOrNull((endpoint) => endpoint.id == id)
-          ?.handler?.call(socket, realData);
+            ?.firstWhereOrNull((endpoint) => endpoint.id == id)
+            ?.handler
+            ?.call(socket, realData);
       },
       onDone: onDisconnect == null ? null : () => onDisconnect!(socket),
     );

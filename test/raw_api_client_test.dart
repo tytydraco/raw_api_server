@@ -19,6 +19,8 @@ void main() {
       },
     );
 
-    expect(() async => await client.connect(timeout: const Duration(seconds: 1)), throwsException);
+    expect(
+        () async => await client.connect(timeout: const Duration(seconds: 1)),
+        throwsException);
   });
 }

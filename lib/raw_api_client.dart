@@ -7,19 +7,24 @@ import 'package:raw_api_server/model/api_request.dart';
 class RawApiClient {
   /// Port to connect to.
   final int port;
+
   /// Host to connect to.
   final String host;
+
   /// A callback passing the server [socket] when a connection is first
   /// established.
   final void Function(Socket socket)? onConnect;
+
   /// A callback passing the server [socket] and any sent [data] coming from
   /// the server.
   final void Function(Socket socket, Uint8List data)? onReceive;
+
   /// A callback passing the server [socket] when the client disconnects
   /// from the server.
   final void Function(Socket socket)? onDisconnect;
 
   bool _hasConnected = false;
+
   /// True if the client has established a connection with the server.
   bool get hasConnected => _hasConnected;
 
@@ -37,9 +42,7 @@ class RawApiClient {
   ///
   /// A maximum [timeout] can be optionally specified.
   /// Throws a [StateError] if the client is already connected.
-  Future<void> connect({
-    Duration? timeout
-  }) async {
+  Future<void> connect({Duration? timeout}) async {
     if (_hasConnected) {
       throw StateError('Client is already connected');
     }
