@@ -1,19 +1,36 @@
+import 'package:raw_api_server/model/api_endpoint.dart';
 import 'package:raw_api_server/raw_api_server.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('API server', () async {
-    final api = RawApiServer(
-      port: 1234,
-      onConnect: (socket) {
-        print('Connected');
-      },
-      onDisconnect: (socket) {
-        print('Disconnected');
-      },
-    );
+  group('API server', () {
+    final api = RawApiServer(port: 8888);
 
-    await api.start();
-    await api.stop();
+    test('Duplicate endpoint IDs', () {
+      expect(() {
+        RawApiServer(port: 8888, endpoints: [
+          ApiEndpoint(id: 0),
+          ApiEndpoint(id: 0),
+        ]);
+      }, throwsArgumentError);
+    });
+
+    test('Stop before start', () {
+      expect(api.stop(), throwsStateError);
+    });
+
+    test('Start', () async {
+      await api.start();
+      expect(api.hasStarted, isTrue);
+    });
+
+    test('Double start', () async {
+      expect(api.start(), throwsStateError);
+    });
+
+    test('Stop', () async {
+      await api.stop();
+      expect(api.hasStarted, isFalse);
+    });
   });
 }

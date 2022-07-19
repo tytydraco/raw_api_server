@@ -1,26 +1,52 @@
 import 'dart:io';
 
+import 'package:raw_api_server/model/api_request.dart';
 import 'package:raw_api_server/raw_api_client.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('API client', () async {
-    final client = RawApiClient(
-      port: 1234,
-      host: 'does.not.exist',
-      onConnect: (socket) {
-        print('Connected');
-      },
-      onDisconnect: (socket) {
-        print('Disconnected');
-      },
-      onReceive: (socket, data) {
-        print('Received data');
-      },
-    );
+  group('API client', () {
+    final client = RawApiClient(port: 9999, host: 'localhost');
 
-    expect(
-        () async => await client.connect(timeout: const Duration(seconds: 1)),
-        throwsException);
+    test('Send request before connect', () async {
+      expect(() => client.sendRequest(ApiRequest(id: 0)), throwsStateError);
+    });
+
+    test('Disconnect before connect', () async {
+      expect(() => client.disconnect(), throwsStateError);
+    });
+
+    test('Connect', () async {
+      final mockServerSocket =
+          await ServerSocket.bind(InternetAddress.loopbackIPv4, 9999);
+      await client.connect();
+      expect(client.hasConnected, isTrue);
+      await mockServerSocket.close();
+    });
+
+    test('Send request', () async {
+      final mockServerSocket =
+          await ServerSocket.bind(InternetAddress.loopbackIPv4, 9999);
+
+      final serverListenerFuture = mockServerSocket.listen((socket) {
+        socket.listen((data) async {
+          expect(data.toList(), equals([0]));
+          await mockServerSocket.close();
+        });
+      }).asFuture();
+
+      client.sendRequest(ApiRequest(id: 0));
+
+      expect(serverListenerFuture, completes);
+    });
+
+    test('Double connect', () async {
+      expect(client.connect(), throwsStateError);
+    });
+
+    test('Disconnect', () async {
+      client.disconnect();
+      expect(client.hasConnected, isFalse);
+    });
   });
 }

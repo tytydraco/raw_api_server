@@ -37,7 +37,7 @@ class RawApiServer {
 
   /// Assert that every endpoint has a unique id.
   ///
-  /// Throws an [AssertionError] if there are any duplicate ids.
+  /// Throws an [ArgumentError] if there are any duplicate ids.
   void _checkUniqueEndpointIds() {
     if (endpoints == null) {
       return;
@@ -48,7 +48,8 @@ class RawApiServer {
 
     final unique = (ids.length == idsSet.length);
     if (!unique) {
-      throw AssertionError('Provided endpoints do not have unique id values');
+      throw ArgumentError(
+          'Provided endpoints do not have unique id values', 'endpoints');
     }
   }
 
