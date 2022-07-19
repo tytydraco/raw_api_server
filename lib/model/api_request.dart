@@ -15,7 +15,11 @@ class ApiRequest {
   ApiRequest({
     required this.id,
     this.data,
-  });
+  }) {
+    if (id < 0 || id > 255) {
+      throw ArgumentError('Must be in range [0, 255]', 'id');
+    }
+  }
 
   /// Create a request using an encoded UTF-8 string as the [data].
   factory ApiRequest.fromUtf8({

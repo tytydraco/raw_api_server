@@ -1,3 +1,8 @@
+## 1.0.3
+
+* Add more inclusive testing
+* Add missed checks in constructors
+
 ## 1.0.2
 
 * Fix bug where client thought it was not connected

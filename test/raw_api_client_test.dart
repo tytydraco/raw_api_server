@@ -6,6 +6,8 @@ import 'package:test/test.dart';
 
 void main() {
   group('API client', () {
+    final mockServerSocket =
+        ServerSocket.bind(InternetAddress.loopbackIPv4, 9999);
     final client = RawApiClient(port: 9999, host: 'localhost');
 
     test('Send request before connect', () async {
@@ -17,21 +19,18 @@ void main() {
     });
 
     test('Connect', () async {
-      final mockServerSocket =
-          await ServerSocket.bind(InternetAddress.loopbackIPv4, 9999);
+      await mockServerSocket;
       await client.connect();
       expect(client.hasConnected, isTrue);
-      await mockServerSocket.close();
     });
 
     test('Send request', () async {
-      final mockServerSocket =
-          await ServerSocket.bind(InternetAddress.loopbackIPv4, 9999);
+      final server = await mockServerSocket;
 
-      final serverListenerFuture = mockServerSocket.listen((socket) {
+      final serverListenerFuture = server.listen((socket) {
         socket.listen((data) async {
           expect(data.toList(), equals([0]));
-          await mockServerSocket.close();
+          await server.close();
         });
       }).asFuture();
 
