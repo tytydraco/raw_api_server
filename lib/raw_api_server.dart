@@ -5,7 +5,8 @@ import 'package:raw_api_server/model/api_endpoint.dart';
 
 /// A simple socket-based API server hosting on a given [port].
 class RawApiServer {
-  /// Raw API server
+  /// Create a [RawApiServer] given a [port]. Callbacks can be optionally
+  /// provided.
   RawApiServer({
     required this.port,
     this.endpoints,

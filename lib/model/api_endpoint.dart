@@ -4,7 +4,7 @@ import 'dart:typed_data';
 
 /// An endpoint to relate an [id] to a function [handler].
 class ApiEndpoint {
-  /// Create a new [ApiEndpoint].
+  /// Create a new [ApiEndpoint] given an [id] and an optional [handler].
   ApiEndpoint({
     required this.id,
     this.handler,

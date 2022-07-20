@@ -5,7 +5,8 @@ import 'package:raw_api_server/model/api_request.dart';
 
 /// A simple socket-based API client to connect to a [port] on a [host] server.
 class RawApiClient {
-  /// Create a new [RawApiClient].
+  /// Create a new [RawApiClient] given a [port] and a [host]. Callbacks can be
+  /// optionally provided.
   RawApiClient({
     required this.port,
     required this.host,

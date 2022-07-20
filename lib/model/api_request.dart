@@ -4,7 +4,7 @@ import 'dart:typed_data';
 
 /// A request given an [id] and some [data].
 class ApiRequest {
-  /// Creates a new [ApiRequest].
+  /// Creates a new [ApiRequest] given an [id] and some optional [data].
   ApiRequest({
     required this.id,
     this.data,

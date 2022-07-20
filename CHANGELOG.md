@@ -1,3 +1,7 @@
+## 1.0.5
+
+* Slightly more descriptive constructor documentation
+
 ## 1.0.4
 
 * Follow Very Good Analysis guidelines
