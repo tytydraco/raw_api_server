@@ -5,21 +5,30 @@ import 'package:raw_api_server/model/api_request.dart';
 
 /// A simple socket-based API client to connect to a [port] on a [host] server.
 class RawApiClient {
+  /// Create a new [RawApiClient].
+  RawApiClient({
+    required this.port,
+    required this.host,
+    this.onConnect,
+    this.onReceive,
+    this.onDisconnect,
+  });
+
   /// Port to connect to.
   final int port;
 
   /// Host to connect to.
   final String host;
 
-  /// A callback passing the server [socket] when a connection is first
+  /// A callback passing the server [Socket] when a connection is first
   /// established.
   final void Function(Socket socket)? onConnect;
 
-  /// A callback passing the server [socket] and any sent [data] coming from
-  /// the server.
+  /// A callback passing the server [Socket] and any sent data as a [Uint8List]
+  /// coming from the server.
   final void Function(Socket socket, Uint8List data)? onReceive;
 
-  /// A callback passing the server [socket] when the client disconnects
+  /// A callback passing the server [Socket] when the client disconnects
   /// from the server.
   final void Function(Socket socket)? onDisconnect;
 
@@ -29,14 +38,6 @@ class RawApiClient {
   bool get hasConnected => _hasConnected;
 
   late final Socket _socket;
-
-  RawApiClient({
-    required this.port,
-    required this.host,
-    this.onConnect,
-    this.onReceive,
-    this.onDisconnect,
-  });
 
   /// Attempt to make a connection with the remote server.
   ///

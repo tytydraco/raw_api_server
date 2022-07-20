@@ -5,17 +5,27 @@ import 'package:raw_api_server/model/api_endpoint.dart';
 
 /// A simple socket-based API server hosting on a given [port].
 class RawApiServer {
+  /// Raw API server
+  RawApiServer({
+    required this.port,
+    this.endpoints,
+    this.onConnect,
+    this.onDisconnect,
+  }) {
+    _checkUniqueEndpointIds();
+  }
+
   /// Port to connect to.
   final int port;
 
   /// A list of [ApiEndpoint]s that the server will scan client data for.
   final Iterable<ApiEndpoint>? endpoints;
 
-  /// A callback passing the client [socket] when a connection is first
+  /// A callback passing the client [Socket] when a connection is first
   /// established.
   final void Function(Socket socket)? onConnect;
 
-  /// A callback passing the client [socket] when a client disconnects
+  /// A callback passing the client [Socket] when a client disconnects
   /// from the server.
   final void Function(Socket socket)? onDisconnect;
 
@@ -25,15 +35,6 @@ class RawApiServer {
   bool get hasStarted => _hasStarted;
 
   late final ServerSocket _serverSocket;
-
-  RawApiServer({
-    required this.port,
-    this.endpoints,
-    this.onConnect,
-    this.onDisconnect,
-  }) {
-    _checkUniqueEndpointIds();
-  }
 
   /// Assert that every endpoint has a unique id.
   ///
@@ -46,10 +47,12 @@ class RawApiServer {
     final ids = endpoints!.map((e) => e.id).toList();
     final idsSet = ids.toSet().toList();
 
-    final unique = (ids.length == idsSet.length);
+    final unique = ids.length == idsSet.length;
     if (!unique) {
       throw ArgumentError(
-          'Provided endpoints do not have unique id values', 'endpoints');
+        'Provided endpoints do not have unique id values',
+        'endpoints',
+      );
     }
   }
 
@@ -83,7 +86,7 @@ class RawApiServer {
       throw StateError('Server is already started');
     }
     _serverSocket = await ServerSocket.bind(InternetAddress.anyIPv4, port);
-    _serverSocket.listen((socket) => _handleConnection(socket));
+    _serverSocket.listen(_handleConnection);
     _hasStarted = true;
   }
 

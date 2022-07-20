@@ -4,14 +4,7 @@ import 'dart:typed_data';
 
 /// A request given an [id] and some [data].
 class ApiRequest {
-  /// A unique identifier represented as a [Uint8].
-  ///
-  /// Must be in range from 0 to 255 inclusive.
-  final int id;
-
-  /// A list of of integers that must comply to the type [Uint8].
-  final Uint8List? data;
-
+  /// Creates a new [ApiRequest].
   ApiRequest({
     required this.id,
     this.data,
@@ -28,6 +21,14 @@ class ApiRequest {
   }) {
     return ApiRequest(id: id, data: Uint8List.fromList(utf8.encode(data)));
   }
+
+  /// A unique identifier represented as a [Uint8].
+  ///
+  /// Must be in range from 0 to 255 inclusive.
+  final int id;
+
+  /// A list of of integers that must comply to the type [Uint8].
+  final Uint8List? data;
 
   /// Convert the request into a socket-compatible [Uint8List].
   Uint8List toIntList() {

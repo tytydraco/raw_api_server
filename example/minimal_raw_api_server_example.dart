@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:raw_api_server/model/api_endpoint.dart';
 import 'package:raw_api_server/model/api_request.dart';
 import 'package:raw_api_server/raw_api_client.dart';
@@ -21,16 +23,17 @@ final pingRequest = ApiRequest.fromUtf8(
 final client = RawApiClient(
   port: 6543,
   host: 'localhost',
-  onReceive: (socket, data) => print('Received: ${String.fromCharCodes(data)}'),
+  onReceive: (socket, data) =>
+      stdout.writeln('Received: ${String.fromCharCodes(data)}'),
 );
 
 Future<void> main() async {
   await api.start();
   await client.connect();
 
-  print('Sending a ping!');
+  stdout.writeln('Sending a ping!');
   client.sendRequest(pingRequest);
-  await Future.delayed(Duration(seconds: 2));
+  await Future<void>.delayed(const Duration(seconds: 2));
 
   client.disconnect();
   await api.stop();

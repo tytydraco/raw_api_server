@@ -7,12 +7,18 @@ void main() {
     final api = RawApiServer(port: 8888);
 
     test('Duplicate endpoint IDs', () {
-      expect(() {
-        RawApiServer(port: 8888, endpoints: [
-          ApiEndpoint(id: 0),
-          ApiEndpoint(id: 0),
-        ]);
-      }, throwsArgumentError);
+      expect(
+        () {
+          RawApiServer(
+            port: 8888,
+            endpoints: [
+              ApiEndpoint(id: 0),
+              ApiEndpoint(id: 0),
+            ],
+          );
+        },
+        throwsArgumentError,
+      );
     });
 
     test('Stop before start', () {

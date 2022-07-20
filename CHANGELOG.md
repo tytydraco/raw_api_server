@@ -1,3 +1,7 @@
+## 1.0.4
+
+* Follow Very Good Analysis guidelines
+
 ## 1.0.3
 
 * Add more inclusive testing

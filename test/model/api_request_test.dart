@@ -28,8 +28,10 @@ void main() {
 
     test('To int list with UTF-8 data', () {
       final request = ApiRequest.fromUtf8(id: 0, data: 'hello');
-      expect(request.toIntList(),
-          equals([0, ...Uint8List.fromList(utf8.encode('hello'))]));
+      expect(
+        request.toIntList(),
+        equals([0, ...Uint8List.fromList(utf8.encode('hello'))]),
+      );
     });
   });
 }
