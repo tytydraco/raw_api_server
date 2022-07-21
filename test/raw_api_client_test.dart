@@ -29,7 +29,7 @@ void main() {
 
       final serverListener = server.listen((socket) {
         socket.listen((data) async {
-          expect(data.toList(), equals([0]));
+          expect(data.toList(), [0]);
           await server.close();
         });
       });

@@ -18,19 +18,19 @@ void main() {
   group('Api request data', () {
     test('To int list without data', () {
       final request = ApiRequest(id: 0);
-      expect(request.toIntList(), equals(Uint8List.fromList([0])));
+      expect(request.toIntList(), Uint8List.fromList([0]));
     });
 
     test('To int list with Uint8 data', () {
       final request = ApiRequest(id: 0, data: Uint8List.fromList([1, 2, 3, 4]));
-      expect(request.toIntList(), equals(Uint8List.fromList([0, 1, 2, 3, 4])));
+      expect(request.toIntList(), Uint8List.fromList([0, 1, 2, 3, 4]));
     });
 
     test('To int list with UTF-8 data', () {
       final request = ApiRequest.fromUtf8(id: 0, data: 'hello');
       expect(
         request.toIntList(),
-        equals([0, ...Uint8List.fromList(utf8.encode('hello'))]),
+        [0, ...Uint8List.fromList(utf8.encode('hello'))],
       );
     });
   });
