@@ -1,6 +1,6 @@
 name: raw_api_server
 description: A Dart package for building small and simple socket-based APIs.
-version: 1.0.5
+version: 1.0.6
 repository: https://www.github.com/tytydraco/raw_api_server
 
 environment:

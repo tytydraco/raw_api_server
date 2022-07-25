@@ -1,3 +1,7 @@
+## 1.0.6
+
+* Use exclusive range of [0, 255)
+
 ## 1.0.5
 
 * Slightly more descriptive constructor documentation

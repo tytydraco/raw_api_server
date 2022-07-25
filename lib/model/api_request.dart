@@ -9,8 +9,8 @@ class ApiRequest {
     required this.id,
     this.data,
   }) {
-    if (id < 0 || id > 255) {
-      throw ArgumentError('Must be in range [0, 255]', 'id');
+    if (id < 0 || id >= 256) {
+      throw ArgumentError('Must be in range [0, 256)', 'id');
     }
   }
 
@@ -24,7 +24,7 @@ class ApiRequest {
 
   /// A unique identifier represented as a [Uint8].
   ///
-  /// Must be in range from 0 to 255 inclusive.
+  /// Must be in range from [0, 256).
   final int id;
 
   /// A list of of integers that must comply to the type [Uint8].

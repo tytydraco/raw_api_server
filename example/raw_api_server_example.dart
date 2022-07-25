@@ -23,7 +23,7 @@ final api = RawApiServer(
     ApiEndpoint(
       // Each endpoint needs a unique id that has not been registered to the
       // server already. It is sent over TCP as a single Uint8, so the range
-      // for the id is [0, 255] inclusive.
+      // for the id is [0, 256).
       id: 0,
       // Each call passes the client and the remaining data as a Uint8List
       handler: (socket, data) {
