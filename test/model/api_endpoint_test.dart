@@ -1,4 +1,4 @@
-import 'package:raw_api_server/api_endpoint.dart';
+import 'package:raw_api_server/model/api_endpoint.dart';
 import 'package:test/test.dart';
 
 void main() {

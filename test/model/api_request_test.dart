@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:raw_api_server/api_request.dart';
+import 'package:raw_api_server/model/api_request.dart';
 import 'package:test/test.dart';
 
 void main() {

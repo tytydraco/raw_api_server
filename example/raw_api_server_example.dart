@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:raw_api_server/api_endpoint.dart';
-import 'package:raw_api_server/api_request.dart';
+import 'package:raw_api_server/model/api_endpoint.dart';
+import 'package:raw_api_server/model/api_request.dart';
 import 'package:raw_api_server/raw_api_client.dart';
 import 'package:raw_api_server/raw_api_server.dart';
 

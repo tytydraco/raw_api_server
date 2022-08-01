@@ -1,3 +1,7 @@
+## 1.1.0+1
+
+* Keep original library structure, but use src for internal
+
 ## 1.1.0
 
 * Configurable id width (default is 4 now)
