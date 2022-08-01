@@ -1,3 +1,7 @@
+## 1.1.0+2
+
+* Add tests for byte ops
+
 ## 1.1.0+1
 
 * Keep original library structure, but use src for internal
