@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -9,14 +8,12 @@ class ApiEndpoint {
     required this.id,
     this.handler,
   }) {
-    if (id < 0 || id >= 256) {
-      throw ArgumentError('Must be in range [0, 256)', 'id');
+    if (id < 0) {
+      throw ArgumentError('Must not be negative', 'id');
     }
   }
 
-  /// A unique identifier represented as a [Uint8].
-  ///
-  /// Must be in range from [0, 256).
+  /// A unique identifier.
   final int id;
 
   /// A function handler given a client [Socket] and data as a [Uint8List].

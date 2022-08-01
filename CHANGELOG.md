@@ -1,3 +1,8 @@
+## 1.1.0
+
+* Configurable id width (default is 4 now)
+* Use proper library structure
+
 ## 1.0.6+2
 
 * Use List not Iterable

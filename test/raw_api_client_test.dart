@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:raw_api_server/model/api_request.dart';
+import 'package:raw_api_server/api_request.dart';
 import 'package:raw_api_server/raw_api_client.dart';
 import 'package:test/test.dart';
 
@@ -29,7 +29,7 @@ void main() {
 
       final serverListener = server.listen((socket) {
         socket.listen((data) async {
-          expect(data.toList(), [0]);
+          expect(data.toList(), [0, 0, 0, 0]);
           await server.close();
         });
       });

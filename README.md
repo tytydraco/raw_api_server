@@ -7,7 +7,7 @@ A Dart package for building small and simple socket-based APIs.
 * Declarative
 * Lightweight
 * Extensible
-* Determines action via one `uint8` of the request
+* Determines action via some `uint8` of the request (default: 4 bytes)
 
 ## Getting started
 
