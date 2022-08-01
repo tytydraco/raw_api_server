@@ -20,7 +20,7 @@ class RawApiServer {
   final int port;
 
   /// A list of [ApiEndpoint]s that the server will scan client data for.
-  final Iterable<ApiEndpoint>? endpoints;
+  final List<ApiEndpoint>? endpoints;
 
   /// A callback passing the client [Socket] when a connection is first
   /// established.

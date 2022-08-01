@@ -1,3 +1,7 @@
+## 1.0.6+2
+
+* Use List not Iterable
+
 ## 1.0.6+1
 
 * Convert LICENSE to 2-Clause BSD
