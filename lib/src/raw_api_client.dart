@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:raw_api_server/model/api_request.dart';
+import 'package:raw_api_server/src/model/api_request.dart';
 
 /// A simple socket-based API client to connect to a [port] on a [host] server.
 class RawApiClient {

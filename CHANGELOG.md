@@ -1,3 +1,7 @@
+## 1.1.1
+
+* Proper package structure
+
 ## 1.1.0+2
 
 * Add tests for byte ops

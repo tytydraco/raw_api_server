@@ -1,5 +1,5 @@
-import 'package:raw_api_server/model/api_endpoint.dart';
 import 'package:raw_api_server/raw_api_server.dart';
+import 'package:raw_api_server/src/raw_api_server.dart';
 import 'package:test/test.dart';
 
 void main() {
